@@ -1,9 +1,11 @@
 package fdi.sshrep.code;
 
 import java.io.BufferedReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -43,13 +45,22 @@ public class SSHClient {
             System.out.println();
             System.out.println("///REPOLIST///");
             
+            
+           
+            FileWriter fileWriter = new FileWriter("ListRepo.txt");
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+   
             JSONArray obj = new JSONArray(S.toString());
 		   for (int i = 0; i < obj.length(); i++) {
 			JSONObject Repo=obj.getJSONObject(i);
 			String n1 = Repo.getString("name");
 			String n2 = Repo.getString("ssh_url_to_repo");
 			System.out.println(n1+"->"+n2);
+			printWriter.println(n1+" -> "+n2);
 		} 
+		   
+		   printWriter.close();
+		   
 		   System.out.println();
             System.out.println("ExitCode: " + sess.getExitStatus());
             sess.close();
